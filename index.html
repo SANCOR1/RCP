@@ -1,144 +1,1021 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rostros con Propósito | SPA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Rostros con Propósito | Maquillaje Artístico Suba</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF7F42',
+                            yellow: '#FFAF24',
+                            cream: '#FFE2B8',
+                            lavender: '#AC87CD',
+                            purple: '#724784',
+                            dark: '#2d1436', // Variación oscura del morado para fondos elegantes
+                            softBg: '#FDFBF7'  // Fondo de lienzo claro
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #ff007a;
-            --secondary: #00f2ff;
-            --bg: #0a0a0a;
-            --text: #ffffff;
+        /* Estilos personalizados para efectos de pincel y decoraciones de maquillaje */
+        .brush-accent {
+            background: linear-gradient(120deg, rgba(255, 127, 66, 0.2) 0%, rgba(172, 135, 205, 0.2) 100%);
+            border-radius: 50% 20% 40% 10% / 40% 30% 60% 20%;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
-
-        /* Navegación Fija */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 20px 5% ;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 1000;
+        .text-gradient {
+            background: linear-gradient(to right, #FF7F42, #FFAF24, #AC87CD, #724784);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .logo { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 1.4rem; }
-        nav ul { display: flex; list-style: none; gap: 20px; }
-        nav a { text-decoration: none; color: white; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; }
-        
-        h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 20px; color: var(--secondary); }
-
-        /* Estilo Banner Videos */
-        .video-slider {
-            display: flex; overflow-x: auto; gap: 20px; padding: 20px 0;
-            scrollbar-width: none; /* Ocultar scroll en Firefox */
+        /* Ocultar barra de scroll en carruseles manteniendo la funcionalidad */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .video-slider::-webkit-scrollbar { display: none; } /* Ocultar scroll en Chrome */
-        
-        .video-item {
-            min-width: 280px; height: 400px; background: #1a1a1a; 
-            border-radius: 15px; border: 1px solid #333;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; transition: 0.3s;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        .video-item:hover { border-color: var(--primary); transform: scale(1.02); }
-        .video-item::after { content: 'VIDEO'; color: #444; font-weight: bold; }
-
-        /* Cuadrícula de Talleres */
-        .talleres-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+        /* Slider de Antes / Después */
+        .slider-comparison {
+            position: relative;
+            overflow: hidden;
         }
-        .taller-card {
-            background: #151515; padding: 25px; border-radius: 15px; border-bottom: 4px solid var(--primary);
+        .slider-comparison img {
+            display: block;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
         }
-
-        /* Formulario */
-        .form-container {
-            max-width: 600px; margin: 0 auto; width: 100%;
+        .img-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
-        input, textarea, select {
-            width: 100%; padding: 15px; margin-bottom: 15px;
-            background: #222; border: 1px solid #444; color: white; border-radius: 8px;
-        }
-        button {
-            width: 100%; padding: 15px; background: var(--primary);
-            color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
-        }
-        button:hover { background: #e6006e; }
-
-        footer { text-align: center; padding: 50px; color: #666; font-size: 0.8rem; }
     </style>
 </head>
-<body>
+<body class="bg-brand-softBg font-sans text-brand-dark overflow-x-hidden">
 
-    <nav>
-        <div class="logo">Rostros con Propósito</div>
-        <ul>
-            <li><a href="#proyecto">Proyecto</a></li>
-            <li><a href="#videos">Videos</a></li>
-            <li><a href="#talleres">Talleres</a></li>
-            <li><a href="#registro">Unirse</a></li>
-        </ul>
-    </nav>
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-brand-softBg/90 backdrop-blur-md border-b border-brand-purple/10">
+        <div class="max-w-7xl px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between mx-auto">
+            <!-- Logotipo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-orange via-brand-yellow to-brand-purple flex items-center justify-center text-white font-bold shadow-lg shadow-brand-orange/20">
+                    <i class="fa-solid fa-wand-magic-sparkles text-sm group-hover:rotate-45 transition-transform duration-300"></i>
+                </div>
+                <div>
+                    <span class="font-display text-lg sm:text-xl font-bold tracking-tight text-brand-dark block">Rostros con Propósito</span>
+                    <span class="text-[10px] uppercase tracking-wider text-brand-orange font-bold block -mt-1">Maquillaje Artístico · Suba</span>
+                </div>
+            </a>
 
-    <section id="proyecto">
-        <h2>Proyecto & Artista</h2>
-        <p><strong>Rostros con Propósito</strong> es una iniciativa que fusiona el arte del maquillaje con el tejido social de la localidad de Suba. Nuestra artista líder utiliza el rostro como un lienzo para narrar historias de resiliencia y belleza.</p>
-        <p style="margin-top: 10px; color: #bbb;">Explora nuestra trayectoria y el impacto de nuestras formaciones artísticas.</p>
-    </section>
+            <!-- Navegación Escritorio -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#inicio" class="text-sm font-semibold hover:text-brand-orange transition-colors">Inicio</a>
+                <a href="#nosotras" class="text-sm font-semibold hover:text-brand-orange transition-colors">Nosotras</a>
+                <a href="#galeria-videos" class="text-sm font-semibold hover:text-brand-orange transition-colors">Galería de Videos</a>
+                <a href="#talleres" class="text-sm font-semibold hover:text-brand-orange transition-colors">Talleres</a>
+                <a href="#registro" class="bg-brand-purple hover:bg-brand-purple/90 text-white text-xs uppercase tracking-wider font-bold px-5 py-2.5 rounded-full transition-transform hover:scale-105 shadow-md shadow-brand-purple/20">Únete a la Red</a>
+            </nav>
 
-    <section id="videos" style="background: #050505;">
-        <h2>Serie Artística</h2>
-        <p>10 producciones audiovisuales que capturan la esencia del maquillaje.</p>
-        <div class="video-slider">
-            <div class="video-item"></div><div class="video-item"></div><div class="video-item"></div>
-            <div class="video-item"></div><div class="video-item"></div><div class="video-item"></div>
-            <div class="video-item"></div><div class="video-item"></div><div class="video-item"></div>
-            <div class="video-item"></div>
+            <!-- Botón Menú Móvil -->
+            <button id="mobile-menu-btn" class="md:hidden text-brand-dark hover:text-brand-orange focus:outline-none" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars-staggered text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-softBg border-b border-brand-purple/10 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+            <a href="#inicio" class="block text-sm font-semibold py-2 hover:text-brand-orange">Inicio</a>
+            <a href="#nosotras" class="block text-sm font-semibold py-2 hover:text-brand-orange">Nosotras</a>
+            <a href="#galeria-videos" class="block text-sm font-semibold py-2 hover:text-brand-orange">Galería de Videos</a>
+            <a href="#talleres" class="block text-sm font-semibold py-2 hover:text-brand-orange">Talleres</a>
+            <a href="#registro" class="block text-center bg-brand-purple text-white text-xs uppercase tracking-wider font-bold py-3 rounded-full">Únete a la Red</a>
+        </div>
+    </header>
+
+    <!-- SECCIÓN HERO (INICIO) -->
+    <section id="inicio" class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+        <!-- Manchas de pintura decorativas de fondo -->
+        <div class="absolute top-10 -left-20 w-80 h-80 bg-brand-lavender/30 rounded-full blur-3xl -z-10 animate-pulse" style="animation-duration: 6s;"></div>
+        <div class="absolute bottom-10 right-0 w-96 h-96 bg-brand-cream/60 rounded-full blur-3xl -z-10 animate-pulse" style="animation-duration: 8s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Contenido Texto Hero -->
+                <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 bg-brand-cream/60 border border-brand-orange/20 text-brand-orange font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full">
+                        <i class="fa-solid fa-sparkles"></i> Proyecto Social y Creativo de Suba
+                    </span>
+                    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-brand-dark">
+                        El arte que <span class="relative inline-block text-brand-purple">transforma
+                            <span class="absolute bottom-1 left-0 w-full h-3 bg-brand-cream -z-10 -rotate-1"></span>
+                        </span> y el lienzo de la piel.
+                    </h1>
+                    <p class="text-base sm:text-lg text-brand-dark/80 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Somos <strong class="text-brand-purple">Rostros con Propósito</strong>, una comunidad de mujeres en la localidad de Suba que utiliza el maquillaje artístico como una poderosa herramienta de expresión, empoderamiento personal y salida productiva.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#registro" class="bg-brand-orange hover:bg-brand-orange/90 text-white font-bold px-8 py-4 rounded-full shadow-lg shadow-brand-orange/20 transition-all transform hover:-translate-y-1 text-center">
+                            Inscribirme a la Red <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                        <a href="#talleres" class="border-2 border-brand-purple/30 hover:border-brand-purple text-brand-purple font-bold px-8 py-4 rounded-full transition-all text-center">
+                            Ver Galería de Arte
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Collage Creativo Inspirado en las Imágenes de Referencia -->
+                <div class="lg:col-span-6 relative">
+                    <!-- Elemento decorativo tipo Moodboard -->
+                    <div class="relative w-full max-w-md md:max-w-lg mx-auto aspect-square grid grid-cols-12 grid-rows-12 gap-3 p-4 bg-white/40 backdrop-blur-sm rounded-3xl border border-white/60 shadow-2xl">
+                        
+                        <!-- Mini Bloque de Paleta de Colores (Como la imagen Haunted Mini Palette) -->
+                        <div class="col-span-4 row-span-5 bg-brand-dark rounded-2xl p-3 flex flex-col justify-between shadow-md relative overflow-hidden group hover:scale-105 transition-transform duration-300">
+                            <span class="text-[9px] uppercase tracking-wider text-brand-cream font-bold">Paleta Alma</span>
+                            <div class="space-y-1.5 my-2">
+                                <div class="h-3 rounded-full bg-[#FF7F42]" title="#FF7F42"></div>
+                                <div class="h-3 rounded-full bg-[#FFAF24]" title="#FFAF24"></div>
+                                <div class="h-3 rounded-full bg-[#FFE2B8]" title="#FFE2B8"></div>
+                                <div class="h-3 rounded-full bg-[#AC87CD]" title="#AC87CD"></div>
+                                <div class="h-3 rounded-full bg-[#724784]" title="#724784"></div>
+                            </div>
+                            <span class="text-[8px] text-brand-lavender font-mono">Doodles of Kindness</span>
+                        </div>
+
+                        <!-- Foto Maquillaje de Impacto -->
+                        <div class="col-span-8 row-span-5 rounded-2xl overflow-hidden relative shadow-md group">
+                            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=600&auto=format&fit=crop" 
+                                 alt="Maquillaje de Rostro Detalle" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent flex items-end p-3">
+                                <p class="text-white text-xs font-bold font-display">Brillo de Fantasía</p>
+                            </div>
+                        </div>
+
+                        <!-- Bloque de Texto "MOOD" Artístico -->
+                        <div class="col-span-5 row-span-4 bg-brand-cream/80 rounded-2xl flex flex-col items-center justify-center p-3 text-center shadow-md border border-brand-orange/10 group hover:bg-brand-orange hover:text-white transition-all duration-300">
+                            <span class="text-brand-orange group-hover:text-brand-cream font-black tracking-widest text-2xl font-display">CREA</span>
+                            <p class="text-[10px] text-brand-purple group-hover:text-white font-medium uppercase mt-1">Sin Límites</p>
+                        </div>
+
+                        <!-- Foto Alumna en Taller -->
+                        <div class="col-span-7 row-span-7 rounded-2xl overflow-hidden shadow-md relative group">
+                            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop" 
+                                 alt="Proceso de Maquillaje" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-purple/70 via-transparent to-transparent flex items-end p-4">
+                                <div>
+                                    <span class="bg-brand-yellow text-brand-dark text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full">Taller en Vivo</span>
+                                    <p class="text-white text-xs font-bold mt-1">Transformando miradas</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Elemento Orgánico / Círculo de Mezclas -->
+                        <div class="col-span-5 row-span-3 bg-gradient-to-br from-brand-orange to-brand-purple rounded-2xl flex items-center justify-center text-white p-2 text-center shadow-md">
+                            <div>
+                                <i class="fa-solid fa-palette text-lg animate-bounce"></i>
+                                <p class="text-[9px] font-bold uppercase tracking-wider mt-1">Suba Activa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
-    <section id="talleres">
-        <h2>Talleres y Resultados</h2>
-        <div class="talleres-grid">
-            <div class="taller-card">
-                <h3>Taller I</h3>
-                <p>Enfoque en técnicas de piel y texturas. Muestra de resultados fotográficos del primer ciclo.</p>
+    <!-- SECCIÓN DE DESCRIPCIÓN DEL PROYECTO Y ARTISTAS -->
+    <section id="nosotras" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Título de Sección -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-brand-orange font-bold text-xs uppercase tracking-widest block">Espacio Colectivo</span>
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark">Conoce Nuestra Inspiración y Propósito</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-brand-orange via-brand-yellow to-brand-purple mx-auto rounded-full"></div>
             </div>
-            <div class="taller-card">
-                <h3>Taller II</h3>
-                <p>Teoría del color aplicada al maquillaje artístico. Evolución creativa del grupo.</p>
-            </div>
-            <div class="taller-card">
-                <h3>Taller III</h3>
-                <p>Caracterización avanzada. El cierre del proceso con propuestas de vanguardia.</p>
+
+            <!-- Grid Principal -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Columna Izquierda: Tarjetas de Proyecto y Metas -->
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="prose prose-lg text-brand-dark/80 space-y-6">
+                        <p class="text-lg leading-relaxed">
+                            <strong class="text-brand-orange font-bold text-xl block mb-2">Pintando Realidades en Bogotá</strong>
+                            Nacido en el corazón de la localidad de Suba, <span class="font-semibold text-brand-purple">Rostros con Propósito</span> busca visibilizar el arte del maquillaje corporal y facial como algo que va más allá de la estética: es un vehículo para la reconciliación, el amor propio y el desarrollo económico de mujeres cabezas de familia, jóvenes y emprendedoras.
+                        </p>
+                        <p class="leading-relaxed">
+                            A través de talleres prácticos intensivos, no solo enseñamos técnicas profesionales de difuminado, sombreado y caracterización de efectos especiales, sino que construimos un tejido de sororidad donde cada rostro maquillado cuenta una historia de superación y poder colectivo.
+                        </p>
+                    </div>
+
+                    <!-- Pilares del Proyecto -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                        <div class="p-5 rounded-2xl bg-brand-cream/40 border border-brand-orange/10">
+                            <div class="w-10 h-10 rounded-full bg-brand-orange/20 flex items-center justify-center text-brand-orange mb-3">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-brand-dark mb-1">Capacitación Real</h4>
+                            <p class="text-xs text-brand-dark/70">Formación técnica desde nivel básico hasta técnicas avanzadas de FX.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-brand-lavender/20 border border-brand-purple/10">
+                            <div class="w-10 h-10 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple mb-3">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-brand-dark mb-1">Empoderamiento</h4>
+                            <p class="text-xs text-brand-dark/70">Desarrollo de confianza interna a través de dinámicas creativas.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-brand-yellow/20 border border-brand-yellow/30">
+                            <div class="w-10 h-10 rounded-full bg-brand-yellow/30 flex items-center justify-center text-brand-dark mb-3">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-brand-dark mb-1">Red Solidaria</h4>
+                            <p class="text-xs text-brand-dark/70">Encuentros, alianzas locales y bolsa de empleo comunitario.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Tarjeta Perfil Artista Líder -->
+                <div class="lg:col-span-5">
+                    <div class="bg-brand-softBg p-6 sm:p-8 rounded-3xl border border-brand-purple/10 shadow-xl relative overflow-hidden">
+                        <!-- Esquina decorativa con la paleta de colores -->
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-brand-orange to-brand-yellow rounded-bl-full opacity-20"></div>
+                        
+                        <!-- Imagen Artista Principal -->
+                        <div class="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-brand-purple/20 shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" 
+                                 alt="Artista Maquilladora Principal" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Detalles -->
+                        <div class="text-center mt-6 space-y-2">
+                            <span class="bg-brand-purple/10 text-brand-purple font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">Directora Artística</span>
+                            <h3 class="font-display text-2xl font-bold text-brand-dark">Valentina Méndez</h3>
+                            <p class="text-sm text-brand-orange font-semibold">Artista visual de Suba con más de 8 años de trayectoria</p>
+                            
+                            <p class="text-xs text-brand-dark/80 italic pt-4 border-t border-brand-purple/10">
+                                "Mi mayor logro no es pintar un rostro hermoso, sino ver cómo la mirada de una mujer cambia en el espejo cuando descubre el infinito poder creativo que lleva dentro de sí."
+                            </p>
+
+                            <!-- Redes Artista -->
+                            <div class="flex justify-center gap-4 pt-4">
+                                <a href="#" class="w-8 h-8 rounded-full bg-white border border-brand-purple/10 text-brand-purple flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                    <i class="fa-brands fa-instagram text-sm"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white border border-brand-purple/10 text-brand-purple flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                    <i class="fa-brands fa-tiktok text-sm"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white border border-brand-purple/10 text-brand-purple flex items-center justify-center hover:bg-brand-orange hover:text-white transition-colors">
+                                    <i class="fa-solid fa-envelope text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="registro" style="background: #050505;">
-        <div class="form-container">
-            <h2>Red de Mujeres</h2>
-            <p style="margin-bottom: 20px;">Inscríbete para formar parte de la red de maquilladoras de Suba.</p>
-            <form onsubmit="alert('Datos enviados con éxito a la Red de Suba'); return false;">
-                <input type="text" placeholder="Nombre Completo" required>
-                <input type="email" placeholder="Correo electrónico" required>
-                <select required>
-                    <option value="">¿Vives en Suba?</option>
-                    <option>Sí</option>
-                    <option>No</option>
-                </select>
-                <textarea placeholder="Cuéntanos tu interés en el maquillaje artístico" rows="4"></textarea>
-                <button type="submit">ENVIAR INSCRIPCIÓN</button>
-            </form>
+    <!-- SECCIÓN DE VIDEOS (CARRUSEL BANNER DE 10 VIDEOS) -->
+    <section id="galeria-videos" class="py-20 bg-brand-dark text-white relative overflow-hidden">
+        <!-- Decoraciones de fondo con la paleta Haunted -->
+        <div class="absolute top-1/2 left-0 w-80 h-80 bg-brand-purple/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-10 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Encabezado de Sección -->
+            <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-4">
+                <div class="space-y-3">
+                    <span class="text-brand-yellow font-extrabold text-xs uppercase tracking-widest block">Galería Viva</span>
+                    <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">Nuestra Creación en Movimiento</h2>
+                    <p class="text-brand-cream/80 max-w-xl text-sm">Haz clic en cualquiera de los 10 videos para visualizar el proceso paso a paso, trucos aplicados y las técnicas artísticas.</p>
+                </div>
+                <!-- Indicadores o flechas del Carrusel -->
+                <div class="flex gap-2">
+                    <button onclick="scrollVideos('left')" class="w-10 h-10 rounded-full bg-white/10 hover:bg-brand-orange text-white flex items-center justify-center transition-all" aria-label="Anterior">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button onclick="scrollVideos('right')" class="w-10 h-10 rounded-full bg-white/10 hover:bg-brand-orange text-white flex items-center justify-center transition-all" aria-label="Siguiente">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor Carrusel Horizontal de 10 Videos -->
+            <div id="video-carousel" class="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4 px-2 no-scrollbar scroll-smooth">
+                
+                <!-- Video 1 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/538749685', 'Metamorfosis de Mariposa Monarca', 'Tallerista: Carolina Solano')">
+                        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">03:15</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-orange font-bold uppercase tracking-widest">Maquillaje de Fantasía</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Metamorfosis Mariposa</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Carolina Solano</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 (REEMPLAZADO - Ya no es el Día de los Muertos) -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/336814275', 'Hada de las Orquídeas y Brillo', 'Tallerista: Camila Pérez')">
+                        <img src="https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-purple text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">05:42</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-lavender font-bold uppercase tracking-widest">Fantasía Mágica</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Hada de las Orquídeas</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Camila Pérez</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/538749685', 'Prótesis de Látex y Heridas de FX', 'Tallerista: Mariana Torres')">
+                        <img src="https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">04:20</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-yellow font-bold uppercase tracking-widest">Efectos Especiales</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Prótesis y Piel Falsa</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Mariana Torres</p>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/336814275', 'Maquillaje de Fantasía Galáctica', 'Tallerista: Sonia Gómez')">
+                        <img src="https://images.unsplash.com/photo-1522337094846-8a818192de2f?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">06:12</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-orange font-bold uppercase tracking-widest">Fantasía Astral</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Estrella de Neón</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Sonia Gómez</p>
+                    </div>
+                </div>
+
+                <!-- Video 5 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/538749685', 'Mitología Ancestral Muisca', 'Tallerista: Diana Chía')">
+                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-purple text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">08:05</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-lavender font-bold uppercase tracking-widest">Maquillaje Étnico</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Homenaje a la Bachué</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Diana Chía</p>
+                    </div>
+                </div>
+
+                <!-- Video 6 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/336814275', 'Maquillaje de Época Barroco', 'Tallerista: Laura Restrepo')">
+                        <img src="https://images.unsplash.com/photo-1515688594390-b649af70d282?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">05:10</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-yellow font-bold uppercase tracking-widest">Estilo Editorial</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Antiguos Clásicos</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Laura Restrepo</p>
+                    </div>
+                </div>
+
+                <!-- Video 7 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/538749685', 'Texturas de Animales de Selva', 'Tallerista: Andrea Useche')">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">04:55</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-orange font-bold uppercase tracking-widest">Bodypaint</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Texturas de Jaguar</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Andrea Useche</p>
+                    </div>
+                </div>
+
+                <!-- Video 8 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/336814275', 'Maquillaje de Ojo Cósmico Fluo', 'Tallerista: Patricia Alba')">
+                        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-purple text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">06:40</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-lavender font-bold uppercase tracking-widest">Ojo Cósmico</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Efecto Fluo y Glow</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Patricia Alba</p>
+                    </div>
+                </div>
+
+                <!-- Video 9 -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/538749685', 'Maquillaje de Fantasía Acuática', 'Tallerista: Milena Ortiz')">
+                        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">05:22</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-yellow font-bold uppercase tracking-widest">Sirenas y Fantasía</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Reina Coral del Mar</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Milena Ortiz</p>
+                    </div>
+                </div>
+
+                <!-- Video 10 (REEMPLAZADO - Ya no es el Día de los Muertos) -->
+                <div class="snap-start shrink-0 w-72 sm:w-80 bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-lg group hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="relative aspect-video bg-neutral-900 overflow-hidden cursor-pointer" onclick="openVideoPlayer('https://player.vimeo.com/video/336814275', 'Atardecer de Neón Editorial', 'Tallerista: Viviana Beltrán')">
+                        <img src="https://images.unsplash.com/photo-1515688594390-b649af70d282?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Video thumbnail">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-lg"></i>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black/60 text-white font-mono text-[10px] px-2 py-0.5 rounded">07:05</span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <span class="text-[10px] text-brand-orange font-bold uppercase tracking-widest">Maquillaje de Vanguardia</span>
+                        <h3 class="font-bold text-sm text-white line-clamp-1">Atardecer de Neón</h3>
+                        <p class="text-xs text-brand-cream/60">Tallerista: Viviana Beltrán</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
-    <footer>
-        &copy; 2026 Rostros con Propósito - Suba, Bogotá.
+    <!-- REPRODUCTOR DE VIDEO MODAL (FLOTANTE) -->
+    <div id="video-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-brand-dark border border-brand-purple/20 rounded-3xl overflow-hidden max-w-4xl w-full shadow-2xl relative">
+            
+            <!-- Encabezado del Modal -->
+            <div class="p-4 sm:p-6 flex items-center justify-between border-b border-white/10">
+                <div>
+                    <h3 id="modal-video-title" class="font-display text-xl sm:text-2xl font-bold text-white">Título del Video</h3>
+                    <p id="modal-video-author" class="text-xs text-brand-cream/70">Autor del Maquillaje</p>
+                </div>
+                <button onclick="closeVideoPlayer()" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-brand-orange flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Contenedor del Iframe de Video -->
+            <div class="aspect-video w-full bg-black relative">
+                <!-- Se inyectará el iframe para no consumir recursos hasta hacer clic -->
+                <div id="iframe-placeholder" class="w-full h-full"></div>
+            </div>
+
+            <!-- Pie de Modal Informativo -->
+            <div class="p-4 sm:p-6 bg-brand-purple/10 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <span class="text-xs text-brand-cream/80"><i class="fa-solid fa-circle-info text-brand-yellow mr-2"></i>Grabación en vivo realizada en la Casa de la Cultura de Suba.</span>
+                <a href="#registro" onclick="closeVideoPlayer()" class="bg-brand-orange hover:bg-brand-orange/90 text-white text-xs uppercase tracking-wider font-bold px-5 py-2.5 rounded-full transition-transform hover:scale-105">Únete a la Red de Alumnas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE LOS TRES TALLERES Y SUS RESULTADOS -->
+    <section id="talleres" class="py-20 bg-brand-softBg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Título de Sección -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-brand-orange font-bold text-xs uppercase tracking-widest block">Procesos Formativos</span>
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark">Nuestros Talleres e Impacto</h2>
+                <p class="text-brand-dark/70 text-sm max-w-xl mx-auto">Conoce los tres módulos principales de formación presencial donde nuestras alumnas plasman su aprendizaje en resultados artísticos asombrosos.</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-brand-orange via-brand-yellow to-brand-purple mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Navegación de Pestañas de Talleres -->
+            <div class="flex justify-center border-b border-brand-purple/10 mb-12 overflow-x-auto no-scrollbar">
+                <div class="flex space-x-2 sm:space-x-8">
+                    <button onclick="switchTab(1)" id="tab-btn-1" class="tab-btn active py-4 px-3 sm:px-6 font-display font-bold text-base sm:text-lg border-b-2 border-brand-orange text-brand-orange transition-colors whitespace-nowrap">
+                        1. Mitos y Tradición Ancestral
+                    </button>
+                    <button onclick="switchTab(2)" id="tab-btn-2" class="tab-btn py-4 px-3 sm:px-6 font-display font-bold text-base sm:text-lg border-b-2 border-transparent text-brand-dark/60 hover:text-brand-purple transition-colors whitespace-nowrap">
+                        2. Efectos Especiales & FX
+                    </button>
+                    <button onclick="switchTab(3)" id="tab-btn-3" class="tab-btn py-4 px-3 sm:px-6 font-display font-bold text-base sm:text-lg border-b-2 border-transparent text-brand-dark/60 hover:text-brand-purple transition-colors whitespace-nowrap">
+                        3. Fantasía y Editorial
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE LAS PESTAÑAS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Taller 1: Mitos y Tradición Ancestral -->
+                <div id="tab-content-1" class="tab-content lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    <div class="lg:col-span-6 space-y-6">
+                        <span class="bg-brand-orange/20 text-brand-orange text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Módulo I: Tradición Viva</span>
+                        <h3 class="font-display text-3xl font-extrabold text-brand-dark">Carnaval, Leyendas y Fantasía Ancestral</h3>
+                        <p class="text-brand-dark/80 leading-relaxed">
+                            Este taller aborda la técnica de simetría facial, contrastes vibrantes y la aplicación de gemas y purpurinas sobre la piel. Inspirado en el folclor local colombiano y las leyendas muiscas de Suba, las alumnas experimentaron con mezclas de colores cálidos y mágicos.
+                        </p>
+                        
+                        <div class="space-y-3 bg-white p-5 rounded-2xl border border-brand-purple/5 shadow-md">
+                            <h4 class="font-bold text-brand-purple flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-circle-check"></i> Competencias Desarrolladas:
+                            </h4>
+                            <ul class="text-xs text-brand-dark/80 space-y-2 list-disc list-inside pl-2">
+                                * Dominio de delineados gráficos e hiper-precisos en base de agua.
+                                * Técnicas de fijación extrema para desfiles y comparsas.
+                                * Colocación de pedrería y tocados de flores hechos a mano.
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center gap-6 pt-2">
+                            <div>
+                                <span class="block text-2xl font-black text-brand-orange">35+</span>
+                                <span class="text-xs text-brand-dark/60">Mujeres Graduadas</span>
+                            </div>
+                            <div class="w-px h-10 bg-brand-purple/20"></div>
+                            <div>
+                                <span class="block text-2xl font-black text-brand-purple">2 Muestras</span>
+                                <span class="text-xs text-brand-dark/60">Culturales en Suba</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparador de Antes/Después Interactivo -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <p class="text-xs text-brand-dark/60 text-center italic mb-2">Desliza la barra central para ver el resultado de la transformación de Maquillaje</p>
+                        
+                        <div class="slider-comparison rounded-3xl shadow-2xl border border-brand-purple/10 max-w-md mx-auto" id="comparison-slider-1">
+                            <!-- Imagen Antes (Fondo base) -->
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" alt="Rostro de Alumna Antes">
+                            
+                            <!-- Imagen Después (Capa de encima con clip - Ahora un hermoso maquillaje artístico limpio y no una calavera) -->
+                            <div class="img-overlay" style="width: 50%;">
+                                <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600&auto=format&fit=crop" class="max-w-none" style="width: 448px;" alt="Rostro Maquillado Fantasía Después">
+                            </div>
+                            
+                            <!-- Control Deslizante -->
+                            <input type="range" min="0" max="100" value="50" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize" oninput="slideComparison(this, 'comparison-slider-1')">
+                            
+                            <!-- Línea Divisoria Visual -->
+                            <div class="absolute top-0 bottom-0 left-1/2 w-1 bg-brand-orange pointer-events-none transform -translate-x-1/2" id="divider-1">
+                                <div class="absolute top-1/2 left-1/2 w-8 h-8 bg-brand-orange text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 shadow-lg text-xs">
+                                    <i class="fa-solid fa-left-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Taller 2: Efectos Especiales & FX -->
+                <div id="tab-content-2" class="tab-content lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-12 hidden">
+                    <div class="lg:col-span-6 space-y-6">
+                        <span class="bg-brand-yellow/20 text-brand-purple text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Módulo II: Realismo & Fantasía Oscura</span>
+                        <h3 class="font-display text-3xl font-extrabold text-brand-dark">Efectos Especiales, Caracterización y FX</h3>
+                        <p class="text-brand-dark/80 leading-relaxed">
+                            Un módulo dinámico e impactante donde se explora la aplicación de látex líquido, carne artificial y creación de prótesis 3D en la piel de forma segura. Las estudiantes aprendieron a modelar heridas simuladas, envejecimiento cutáneo y personajes de películas fantásticas.
+                        </p>
+                        
+                        <div class="space-y-3 bg-white p-5 rounded-2xl border border-brand-purple/5 shadow-md">
+                            <h4 class="font-bold text-brand-purple flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-circle-check"></i> Competencias Desarrolladas:
+                            </h4>
+                            <ul class="text-xs text-brand-dark/80 space-y-2 list-disc list-inside pl-2">
+                                * Creación y pegado de moldes de silicona y gelatina artística.
+                                * Manejo de colorimetría para simular hematomas y texturas realistas.
+                                * Medidas estrictas de bioseguridad y remoción de material de caracterización.
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center gap-6 pt-2">
+                            <div>
+                                <span class="block text-2xl font-black text-brand-orange">22+</span>
+                                <span class="text-xs text-brand-dark/60">Proyectos creados</span>
+                            </div>
+                            <div class="w-px h-10 bg-brand-purple/20"></div>
+                            <div>
+                                <span class="block text-2xl font-black text-brand-purple">1 Cortometraje</span>
+                                <span class="text-xs text-brand-dark/60">Estudiantil en Suba</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparador de Antes/Después Interactivo Taller 2 -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <p class="text-xs text-brand-dark/60 text-center italic mb-2">Desliza la barra central para ver el resultado de la transformación de FX</p>
+                        
+                        <div class="slider-comparison rounded-3xl shadow-2xl border border-brand-purple/10 max-w-md mx-auto" id="comparison-slider-2">
+                            <!-- Imagen Antes -->
+                            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop" alt="Antes Maquillaje FX">
+                            
+                            <!-- Imagen Después -->
+                            <div class="img-overlay" style="width: 50%;">
+                                <img src="https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?q=80&w=600&auto=format&fit=crop" class="max-w-none" style="width: 448px;" alt="Después Caracterización FX">
+                            </div>
+                            
+                            <!-- Control Deslizante -->
+                            <input type="range" min="0" max="100" value="50" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize" oninput="slideComparison(this, 'comparison-slider-2')">
+                            
+                            <!-- Línea Divisoria Visual -->
+                            <div class="absolute top-0 bottom-0 left-1/2 w-1 bg-brand-orange pointer-events-none transform -translate-x-1/2" id="divider-2">
+                                <div class="absolute top-1/2 left-1/2 w-8 h-8 bg-brand-orange text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 shadow-lg text-xs">
+                                    <i class="fa-solid fa-left-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Taller 3: Fantasía y Editorial -->
+                <div id="tab-content-3" class="tab-content lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-12 hidden">
+                    <div class="lg:col-span-6 space-y-6">
+                        <span class="bg-brand-lavender/20 text-brand-orange text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Módulo III: Pasarela & Arte Editorial</span>
+                        <h3 class="font-display text-3xl font-extrabold text-brand-dark">Maquillaje de Alta Fantasía y Editorial</h3>
+                        <p class="text-brand-dark/80 leading-relaxed">
+                            Diseñado para conectar el arte del maquillaje con la fotografía artística y de moda. Enfocado en la creación de conceptos vanguardistas de pasarela, integrando elementos de purpurina biodegradable, texturas húmedas y de cristal y delineados asimétricos modernos.
+                        </p>
+                        
+                        <div class="space-y-3 bg-white p-5 rounded-2xl border border-brand-purple/5 shadow-md">
+                            <h4 class="font-bold text-brand-purple flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-circle-check"></i> Competencias Desarrolladas:
+                            </h4>
+                            <ul class="text-xs text-brand-dark/80 space-y-2 list-disc list-inside pl-2">
+                                * Planificación de Moodboard conceptual (combinando paletas de color y texturas).
+                                * Aplicación de pan de oro, pestañas de pluma e incrustaciones adhesivas.
+                                * Maquillaje específico de alta definición para luces de estudio fotográfico.
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center gap-6 pt-2">
+                            <div>
+                                <span class="block text-2xl font-black text-brand-orange">40+</span>
+                                <span class="text-xs text-brand-dark/60">Obras Conceptuales</span>
+                            </div>
+                            <div class="w-px h-10 bg-brand-purple/20"></div>
+                            <div>
+                                <span class="block text-2xl font-black text-brand-purple">1 Desfile</span>
+                                <span class="text-xs text-brand-dark/60">Anual de Mujeres</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparador de Antes/Después Interactivo Taller 3 -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <p class="text-xs text-brand-dark/60 text-center italic mb-2">Desliza la barra central para ver el resultado de la transformación de Editorial</p>
+                        
+                        <div class="slider-comparison rounded-3xl shadow-2xl border border-brand-purple/10 max-w-md mx-auto" id="comparison-slider-3">
+                            <!-- Imagen Antes -->
+                            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=600&auto=format&fit=crop" alt="Antes Maquillaje Editorial">
+                            
+                            <!-- Imagen Después -->
+                            <div class="img-overlay" style="width: 50%;">
+                                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop" class="max-w-none" style="width: 448px;" alt="Después Fantasía Editorial">
+                            </div>
+                            
+                            <!-- Control Deslizante -->
+                            <input type="range" min="0" max="100" value="50" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize" oninput="slideComparison(this, 'comparison-slider-3')">
+                            
+                            <!-- Línea Divisoria Visual -->
+                            <div class="absolute top-0 bottom-0 left-1/2 w-1 bg-brand-orange pointer-events-none transform -translate-x-1/2" id="divider-3">
+                                <div class="absolute top-1/2 left-1/2 w-8 h-8 bg-brand-orange text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 shadow-lg text-xs">
+                                    <i class="fa-solid fa-left-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULARIO DE INSCRIPCIÓN A LA RED DE MUJERES -->
+    <section id="registro" class="py-20 bg-brand-dark text-white relative">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(172,135,205,0.15),transparent)] pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            
+            <!-- Tarjeta Contenedor Formulario -->
+            <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
+                
+                <!-- Encabezado Formulario -->
+                <div class="text-center space-y-3">
+                    <span class="inline-flex items-center gap-2 bg-brand-orange text-white font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-feather-pointed"></i> Formulario de Inscripción
+                    </span>
+                    <h2 class="font-display text-3xl sm:text-4xl font-extrabold">Red de Mujeres Maquilladoras de Suba</h2>
+                    <p class="text-brand-cream/80 max-w-xl mx-auto text-sm">¿Vives en la localidad de Suba y quieres potenciar tu pasión artística? Forma parte de nuestra red de colaboración, capacitaciones y bolsa de trabajo.</p>
+                </div>
+
+                <!-- Formulario -->
+                <form id="women-network-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        
+                        <!-- Nombre Completo -->
+                        <div class="space-y-2">
+                            <label for="fullName" class="text-xs uppercase font-extrabold tracking-wider text-brand-cream">Nombre Completo *</label>
+                            <input type="text" id="fullName" required placeholder="Ej. Liliana Gutiérrez" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
+                        </div>
+
+                        <!-- Correo Electrónico -->
+                        <div class="space-y-2">
+                            <label for="email" class="text-xs uppercase font-extrabold tracking-wider text-brand-cream">Correo Electrónico *</label>
+                            <input type="email" id="email" required placeholder="correo@ejemplo.com" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
+                        </div>
+
+                        <!-- Teléfono / Celular -->
+                        <div class="space-y-2">
+                            <label for="phone" class="text-xs uppercase font-extrabold tracking-wider text-brand-cream">Celular / Teléfono *</label>
+                            <input type="tel" id="phone" required placeholder="Ej. 312 345 6789" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
+                        </div>
+
+                        <!-- Barrio de Residencia en Suba -->
+                        <div class="space-y-2">
+                            <label for="neighborhood" class="text-xs uppercase font-extrabold tracking-wider text-brand-cream">Barrio en Suba *</label>
+                            <select id="neighborhood" required class="w-full bg-neutral-800/90 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
+                                <option value="" disabled selected>Selecciona tu barrio</option>
+                                <option value="Suba Centro">Suba Centro</option>
+                                <option value="Lisboa">Lisboa</option>
+                                <option value="Tibabuyes">Tibabuyes</option>
+                                <option value="El Rincón">El Rincón</option>
+                                <option value="Bilbao">Bilbao</option>
+                                <option value="Costa Azul">Costa Azul</option>
+                                <option value="Niza">Niza</option>
+                                <option value="La Gaitana">La Gaitana</option>
+                                <option value="Otro">Otro barrio de Suba</option>
+                            </select>
+                        </div>
+
+                        <!-- Nivel de Experiencia -->
+                        <div class="space-y-2 sm:col-span-2">
+                            <label class="text-xs uppercase font-extrabold tracking-wider text-brand-cream block mb-3">Nivel de Experiencia en Maquillaje</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                                    <input type="radio" name="experience" value="Principiante" checked class="accent-brand-orange">
+                                    <span class="text-sm">Principiante (Desde cero)</span>
+                                </label>
+                                <label class="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                                    <input type="radio" name="experience" value="Intermedio" class="accent-brand-orange">
+                                    <span class="text-sm">Intermedio (Sé lo básico)</span>
+                                </label>
+                                <label class="flex items-center gap-3 bg-white/5 border border-white/10 p-3 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                                    <input type="radio" name="experience" value="Avanzado" class="accent-brand-orange">
+                                    <span class="text-sm">Avanzado (Profesional)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Motivación -->
+                        <div class="space-y-2 sm:col-span-2">
+                            <label for="motivation" class="text-xs uppercase font-extrabold tracking-wider text-brand-cream">¿Por qué deseas pertenecer a esta Red? *</label>
+                            <textarea id="motivation" rows="3" required placeholder="Cuéntanos qué te apasiona del maquillaje y qué esperas aprender con nosotras..." class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Envío -->
+                    <div class="pt-4 text-center">
+                        <button type="submit" class="bg-gradient-to-r from-brand-orange to-brand-yellow hover:opacity-95 text-brand-dark font-extrabold uppercase tracking-wider text-xs px-8 py-4 rounded-full shadow-xl shadow-brand-orange/10 transform hover:-translate-y-1 transition-all w-full sm:w-auto">
+                            Enviar Solicitud de Registro <i class="fa-solid fa-paper-plane ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VENTANA EMERGENTE DE CONFIRMACIÓN DEL REGISTRO -->
+    <div id="success-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-brand-softBg border-2 border-brand-orange/30 rounded-3xl p-6 sm:p-10 max-w-md w-full text-center space-y-6 shadow-2xl relative">
+            <div class="w-20 h-20 bg-brand-cream/80 rounded-full flex items-center justify-center mx-auto text-brand-orange text-4xl">
+                <i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="font-display text-2xl sm:text-3xl font-bold text-brand-dark">¡Inscripción Recibida!</h3>
+                <p class="text-sm text-brand-purple font-semibold">Bienvenida a la Red de Mujeres de Suba</p>
+                <p class="text-xs text-brand-dark/70 pt-2 leading-relaxed">
+                    Hemos registrado tus datos correctamente. Una de nuestras coordinadoras se pondrá en contacto contigo a través de WhatsApp o Correo en las próximas 48 horas para invitarte al próximo taller presencial.
+                </p>
+            </div>
+
+            <button onclick="closeSuccessModal()" class="bg-brand-purple hover:bg-brand-purple/90 text-white text-xs uppercase tracking-wider font-extrabold px-8 py-3 rounded-full transition-transform hover:scale-105 shadow-md">
+                Aceptar y Volver
+            </button>
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA (FOOTER) -->
+    <footer class="bg-brand-dark text-white/80 py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
+                <!-- Logotipo -->
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-orange flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                    </div>
+                    <div>
+                        <span class="font-display text-lg font-bold tracking-tight text-white block">Rostros con Propósito</span>
+                        <span class="text-[10px] uppercase tracking-wider text-brand-cream font-bold block -mt-1">Maquillaje Artístico · Suba</span>
+                    </div>
+                </a>
+
+                <!-- Enlaces rápidos -->
+                <div class="flex flex-wrap justify-center gap-6 text-xs uppercase tracking-widest">
+                    <a href="#inicio" class="hover:text-brand-orange transition-colors">Inicio</a>
+                    <a href="#nosotras" class="hover:text-brand-orange transition-colors">Nosotras</a>
+                    <a href="#galeria-videos" class="hover:text-brand-orange transition-colors">Videos</a>
+                    <a href="#talleres" class="hover:text-brand-orange transition-colors">Talleres</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
+                <p>© 2026 Colectivo Rostros con Propósito. Todos los derechos reservados. Suba, Bogotá.</p>
+                <p>Desarrollado con amor y empoderamiento social.</p>
+            </div>
+        </div>
     </footer>
 
+    <!-- INTERACTIVIDAD Y FUNCIONES JAVASCRIPT -->
+    <script>
+        // --- MENÚ MÓVIL ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer clic en un enlace
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // --- CARRUSEL DE VIDEOS ---
+        const videoCarousel = document.getElementById('video-carousel');
+
+        function scrollVideos(direction) {
+            const scrollAmount = 320; // Aproximadamente el ancho de una tarjeta de video + gap
+            if (direction === 'left') {
+                videoCarousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                videoCarousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        // --- REPRODUCTOR DE VIDEO MODAL ---
+        const videoModal = document.getElementById('video-modal');
+        const modalVideoTitle = document.getElementById('modal-video-title');
+        const modalVideoAuthor = document.getElementById('modal-video-author');
+        const iframePlaceholder = document.getElementById('iframe-placeholder');
+
+        function openVideoPlayer(embedUrl, title, author) {
+            modalVideoTitle.textContent = title;
+            modalVideoAuthor.textContent = author;
+            
+            // Inyectamos el iframe de Vimeo/YouTube optimizado de forma segura
+            iframePlaceholder.innerHTML = `
+                <iframe src="${embedUrl}?autoplay=1&title=0&byline=0&portrait=0" 
+                        class="w-full h-full" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            `;
+            videoModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden'); // Evitar scroll de fondo
+        }
+
+        function closeVideoPlayer() {
+            videoModal.classList.add('hidden');
+            iframePlaceholder.innerHTML = ''; // Detener video limpiando el iframe
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Cerrar modal al hacer clic por fuera de la tarjeta de contenido
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeVideoPlayer();
+            }
+        });
+
+        // --- CAMBIAR ENTRE PESTAÑAS DE TALLERES ---
+        function switchTab(tabIndex) {
+            // Desactivar todos los botones de pestaña
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('border-brand-orange', 'text-brand-orange');
+                btn.classList.add('border-transparent', 'text-brand-dark/60');
+            });
+
+            // Activar botón seleccionado
+            const activeBtn = document.getElementById(`tab-btn-${tabIndex}`);
+            activeBtn.classList.add('border-brand-orange', 'text-brand-orange');
+            activeBtn.classList.remove('border-transparent', 'text-brand-dark/60');
+
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Mostrar el contenido seleccionado
+            const activeContent = document.getElementById(`tab-content-${tabIndex}`);
+            activeContent.classList.remove('hidden');
+        }
+
+        // --- MANEJO DEL CONTROL DESLIZANTE ANTES/DESPUÉS ---
+        function slideComparison(input, containerId) {
+            const container = document.getElementById(containerId);
+            const overlay = container.querySelector('.img-overlay');
+            const divider = container.querySelector('[id^="divider"]');
+            
+            const value = input.value;
+            overlay.style.width = value + '%';
+            divider.style.left = value + '%';
+        }
+
+        // --- FORMULARIO Y MODAL DE ÉXITO ---
+        const successModal = document.getElementById('success-modal');
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Simular carga de envío y mostrar modal de éxito estético (sin alertas nativas de navegador)
+            successModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            
+            // Opcional: limpiar los valores del formulario
+            document.getElementById('women-network-form').reset();
+        }
+
+        function closeSuccessModal() {
+            successModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    </script>
 </body>
 </html>
